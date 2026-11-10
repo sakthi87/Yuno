@@ -1,90 +1,151 @@
-# Run Yuno without Docker (code + prebuilt runtime separately)
+# Run Yuno without Docker (ODP360-style)
 
-Same pattern as ODP360 `RUN_WITHOUT_DOCKER.md`.
-
-## Overview
-
-1. **Download source code** from GitHub (small).
-2. **Download prebuilt runtime** from the GitHub **Release** (portable Node + `backend/node_modules`).
-3. Start with `./scripts/start-prebuilt.sh` — **no npm, no Docker, no compile**.
+**No npm. No Docker. No compile.**  
+Uses prebuilt Node runtime + `backend/node_modules` + built UI.
 
 Release: https://github.com/sakthi87/Yuno/releases/tag/v1.2.0
 
-## 1. Get the code
+---
+
+## Quick start (recommended)
+
+### Option A — Air-gapped / no internet
+
+Copy the whole repo (must include `offline/`) via USB or internal share, **or** clone tag `v1.2.0` on a machine that already has the files, then take that folder offline.
 
 ```bash
-git clone --depth 1 https://github.com/sakthi87/Yuno.git
+cd Yuno
+chmod +x scripts/*.sh
+
+# 1) Install prebuilt runtime from offline/ (no network)
+YUNO_OFFLINE_ONLY=1 ./scripts/download-prebuilt.sh
+
+# 2) Start
+./scripts/start-prebuilt.sh
+```
+
+Open **http://localhost:3001**  
+Login: **admin** / **admin**
+
+Stop:
+
+```bash
+./scripts/stop-prebuilt.sh
+```
+
+### Option B — Machine with internet
+
+```bash
+git clone --branch v1.2.0 --depth 1 https://github.com/sakthi87/Yuno.git
+cd Yuno
+chmod +x scripts/*.sh
+
+# Uses offline/ if present; otherwise downloads from the v1.2.0 release
+./scripts/download-prebuilt.sh
+
+./scripts/start-prebuilt.sh
+```
+
+Open **http://localhost:3001** — login **admin** / **admin**
+
+```bash
+./scripts/stop-prebuilt.sh
+```
+
+---
+
+## Step-by-step detail
+
+### 1. Get the code
+
+```bash
+git clone --branch v1.2.0 --depth 1 https://github.com/sakthi87/Yuno.git
 cd Yuno
 chmod +x scripts/*.sh
 ```
 
-Or: GitHub → Code → Download ZIP.
+Or download the source ZIP from GitHub and unzip.
 
-## 2. Get the prebuilt runtime
+### 2. Install the prebuilt runtime
 
-### Where is `yuno-runtime-<os-arch>.tar.gz`?
+`./scripts/download-prebuilt.sh` extracts:
 
-| Location | URL / path |
-|----------|------------|
-| **GitHub Release (online)** | https://github.com/sakthi87/Yuno/releases/tag/v1.2.0 |
-| Direct download example | `https://github.com/sakthi87/Yuno/releases/download/v1.2.0/yuno-runtime-linux-x64.tar.gz` |
-| **In this repo (air-gap)** | `offline/yuno-runtime-*.tar.gz` (committed / copied with the project) |
+| Input | Result |
+|-------|--------|
+| `yuno-runtime-<os-arch>.tar.gz` | `runtime/bin/node` + `backend/node_modules/` |
+| `frontend-dist.zip` (if needed) | `frontend/dist/` |
 
-### Air-gapped / no internet (recommended for locked environments)
+**Where the packages live**
 
-Copy the whole project **including** `offline/` (USB, shared drive, internal mirror). Then:
+| Location | Path |
+|----------|------|
+| In the git tag / clone | `offline/yuno-runtime-*.tar.gz`, `offline/frontend-dist.zip` |
+| GitHub Release downloads | https://github.com/sakthi87/Yuno/releases/tag/v1.2.0 |
+
+Examples:
+
+- macOS Apple Silicon: `yuno-runtime-darwin-arm64.tar.gz`
+- Linux x86_64: `yuno-runtime-linux-x64.tar.gz`
+
+**Air-gap (force local files only):**
 
 ```bash
-YUNO_OFFLINE_ONLY=1 ./scripts/download-prebuilt.sh   # uses offline/ only — no curl
+YUNO_OFFLINE_ONLY=1 ./scripts/download-prebuilt.sh
 ```
 
-Or build a single transfer archive on a connected machine:
+If that fails, place the matching `.tar.gz` into `offline/` first (from the Release page or another copy of the repo).
+
+### 3. Start
+
+```bash
+./scripts/start-prebuilt.sh
+```
+
+| What | Value |
+|------|--------|
+| UI + API | http://localhost:3001 |
+| Login | `admin` / `admin` |
+| Health | http://localhost:3001/api/v1/health |
+| Logs | `logs/yuno-api.log` |
+
+### 4. Stop
+
+```bash
+./scripts/stop-prebuilt.sh
+```
+
+---
+
+## Optional: one USB transfer bundle
+
+On a connected machine:
 
 ```bash
 ./scripts/build-offline-bundle.sh
 # copy dist-offline/yuno-offline-<platform>.tar.gz to the locked host
 ```
 
-### Online machine (optional)
+On the locked host:
 
 ```bash
-./scripts/download-prebuilt.sh
-```
-
-This uses `offline/` first; only if missing, it downloads from the GitHub Release.
-
-| Asset | Extracted as |
-|-------|--------------|
-| `yuno-runtime-<platform>.tar.gz` | `runtime/bin/node` + `backend/node_modules/` |
-| `frontend-dist.zip` | `frontend/dist/` (if not already present) |
-
-## 3. Start
-
-```bash
+tar -xzf yuno-offline-<platform>.tar.gz
+cd yuno-offline-<platform>
 ./scripts/start-prebuilt.sh
 ```
 
-- UI + API: **http://localhost:3001**
-- Login: `admin` / `admin`
+(Runtime is often already extracted in that bundle.)
 
-## 4. Stop
+---
 
-```bash
-./scripts/stop-prebuilt.sh
-```
+## Build machine only (publish new artifacts)
 
-## Ports
-
-| Service | Port |
-|---------|------|
-| UI + API (Express serves both) | 3001 |
-
-## Build machine only (publish artifacts)
+Not needed at workplace:
 
 ```bash
 ./scripts/package-prebuilt.sh
-# optional Linux artifact from Mac:
-./scripts/package-prebuilt.sh --platform=linux-x64 --docker
+./scripts/package-prebuilt.sh --platform=linux-x64 --docker   # optional
 
+mkdir -p offline
+cp dist-prebuilt/yuno-runtime-*.tar.gz dist-prebuilt/frontend-dist.zip offline/
 gh release upload v1.2.0 dist-prebuilt/*.tar.gz dist-prebuilt/frontend-dist.zip --clobber
 ```
