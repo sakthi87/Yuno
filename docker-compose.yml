@@ -1,0 +1,21 @@
+# Local build (machine that can compile). Workplace should use docker-compose.hub.yml.
+name: yuno
+
+services:
+  yuno:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: yuno-platform:local
+    ports:
+      - "3001:3001"
+    environment:
+      AUTO_SEED: "true"
+      DEMO_MODE: "true"
+      SESSION_SECRET: yuno-demo-session
+    volumes:
+      - yuno-data:/data
+    restart: unless-stopped
+
+volumes:
+  yuno-data:

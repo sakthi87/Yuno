@@ -1,0 +1,109 @@
+{
+  "version": "1.1.0",
+  "description": "PostgreSQL tables → REST APIs → UI tabs (read + ingest write paths)",
+  "authentication": {
+    "read": "Network-restricted GET (add OIDC at gateway in production)",
+    "ingestWrite": "Authorization: Bearer AGENT_API_TOKEN",
+    "adminWrite": "Authorization: Bearer ADMIN_API_TOKEN"
+  },
+  "tables": [
+    {
+      "table": "universes",
+      "readApi": ["GET /api/v1/universes", "GET /api/v1/bootstrap"],
+      "writeApi": ["POST /api/v1/ingest/universes"],
+      "ui": ["Overview", "Universes"]
+    },
+    {
+      "table": "nodes",
+      "readApi": ["GET /api/v1/bootstrap", "GET /api/v1/vms"],
+      "writeApi": ["POST /api/v1/ingest/nodes", "POST /api/v1/ingest/heartbeat"],
+      "ui": ["Universes → detail", "VMs"]
+    },
+    {
+      "table": "universe_metrics",
+      "readApi": ["GET /api/v1/bootstrap", "GET /api/v1/finance"],
+      "writeApi": ["POST /api/v1/ingest/metrics"],
+      "ui": ["Universe metrics panel", "Finance (cost inputs)"]
+    },
+    {
+      "table": "infrastructure",
+      "readApi": ["GET /api/v1/vms"],
+      "writeApi": ["POST /api/v1/ingest/infrastructure", "POST /api/v1/ingest/heartbeat"],
+      "ui": ["Universes → VMs"]
+    },
+    {
+      "table": "consumer_usage",
+      "readApi": ["GET /api/v1/bootstrap", "GET /api/v1/finance"],
+      "writeApi": [
+        "POST /api/v1/ingest/consumer-usage",
+        "DELETE /api/v1/ingest/consumer-usage/:universeId/:database"
+      ],
+      "ui": ["Finance → chargeback"]
+    },
+    {
+      "table": "alerts",
+      "readApi": ["GET /api/v1/alerts"],
+      "writeApi": ["POST /api/v1/ingest/alerts", "DELETE /api/v1/ingest/alerts/:id"],
+      "ui": ["Agents & Alerts → Alerts"]
+    },
+    {
+      "table": "drift_items",
+      "readApi": ["GET /api/v1/drift"],
+      "writeApi": ["POST /api/v1/ingest/drift"],
+      "ui": ["Agents & Alerts → Drift"]
+    },
+    {
+      "table": "vulnerabilities",
+      "readApi": ["GET /api/v1/vulnerabilities"],
+      "writeApi": ["POST /api/v1/ingest/vulnerabilities"],
+      "ui": ["Agents & Alerts → Vulnerabilities"]
+    },
+    {
+      "table": "patch_jobs",
+      "readApi": ["GET /api/v1/patch-jobs"],
+      "writeApi": ["POST /api/v1/ingest/patch-jobs"],
+      "ui": ["Agents & Alerts → Patching"]
+    },
+    {
+      "table": "certificates",
+      "readApi": ["GET /api/v1/certificates"],
+      "writeApi": ["POST /api/v1/ingest/certificates"],
+      "ui": ["Agents & Alerts → Certificates"]
+    },
+    {
+      "table": "audit_log",
+      "readApi": ["GET /api/v1/audit"],
+      "writeApi": ["Automatic on ingest"],
+      "ui": ["Settings → Audit"]
+    },
+    {
+      "table": "platform_health",
+      "readApi": ["GET /api/v1/platform/health"],
+      "writeApi": ["Install / seed only (today)"],
+      "ui": ["Settings → Platform health"]
+    },
+    {
+      "table": "platform_settings",
+      "readApi": ["GET /api/v1/settings", "GET /api/v1/admin/settings/auth", "GET /api/v1/admin/settings/finance"],
+      "writeApi": [
+        "PUT /api/v1/admin/settings/auth",
+        "PUT /api/v1/admin/settings/finance",
+        "PUT /api/v1/settings/:key"
+      ],
+      "ui": ["Settings → LDAP/SSO", "Settings → Finance"]
+    },
+    {
+      "table": "app_config",
+      "readApi": ["GET /api/v1/bootstrap", "GET /api/v1/overview/*"],
+      "writeApi": ["Future aggregator endpoints", "POST /api/v1/admin/reseed (demo)"],
+      "ui": ["Overview KPIs"]
+    },
+    {
+      "table": "_computed_finance",
+      "readApi": ["GET /api/v1/finance", "GET /api/v1/bootstrap"],
+      "writeApi": ["Derived from universes + nodes + universe_metrics + consumer_usage + platform_settings.finance"],
+      "ui": ["Finance", "Overview finance section"]
+    }
+  ],
+  "extendedDocs": "docs/TABLES_AND_APIS.md"
+}

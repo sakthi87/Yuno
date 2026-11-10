@@ -1,0 +1,172 @@
+.settings-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(72, 101, 129, 0.12), transparent 35%),
+    linear-gradient(180deg, #f5f7fa 0%, #eef2f6 100%);
+  padding: 1.5rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow: auto;
+}
+
+.settings-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.settings-eyebrow {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #627d98;
+}
+
+.settings-page-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #102a43;
+}
+
+.settings-subtitle {
+  margin: 0.4rem 0 0;
+  color: #486581;
+  font-size: 0.95rem;
+  max-width: 640px;
+}
+
+.settings-back-button {
+  border: 1px solid #d9e2ec;
+  background: #fff;
+  color: #243b53;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.settings-back-button:hover {
+  background: #f0f4f8;
+}
+
+.settings-page-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1rem;
+  min-height: 0;
+  flex: 1;
+}
+
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.settings-nav-item {
+  text-align: left;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  padding: 0.95rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.settings-nav-item:hover {
+  background: #fff;
+  border-color: #d9e2ec;
+}
+
+.settings-nav-item.active {
+  background: #fff;
+  border-color: #243b53;
+  box-shadow: 0 10px 24px rgba(36, 59, 83, 0.08);
+}
+
+.settings-nav-label {
+  display: block;
+  font-weight: 700;
+  color: #102a43;
+}
+
+.settings-nav-description {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.8rem;
+  color: #627d98;
+}
+
+.settings-main {
+  background: #fff;
+  border: 1px solid #e0e6ed;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem 1.5rem;
+  min-height: 420px;
+  box-shadow: 0 8px 24px rgba(36, 59, 83, 0.04);
+}
+
+.settings-main-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+.settings-main-toolbar h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #102a43;
+}
+
+.settings-main-toolbar p {
+  margin: 0.35rem 0 0;
+  color: #627d98;
+  font-size: 0.9rem;
+}
+
+.settings-unlock-card {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #f7f9fb;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+}
+
+.settings-unlock-card h3 {
+  margin: 0 0 0.5rem;
+}
+
+.settings-admin-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #b44d12;
+  background: #fff3e0;
+  border: 1px solid #f5c882;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  white-space: nowrap;
+}
+
+.settings-main .platform-card {
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .settings-page-body {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-page-header {
+    flex-direction: column;
+  }
+}

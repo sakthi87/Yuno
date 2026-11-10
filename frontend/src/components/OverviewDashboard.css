@@ -1,0 +1,82 @@
+.overview-segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  margin: 0 0 1rem;
+  background: #e4e7eb;
+  border-radius: 10px;
+}
+
+.overview-segment-btn {
+  border: none;
+  background: transparent;
+  color: #486581;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.overview-segment-btn:hover {
+  color: #102a43;
+}
+
+.overview-segment-btn.active {
+  background: #fff;
+  color: #102a43;
+  box-shadow: 0 1px 3px rgba(16, 42, 67, 0.12);
+}
+
+.overview-segment-count {
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: #9fb3c8;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview-segment-count.hot {
+  background: #c81e1e;
+}
+
+.overview-attention-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #f3d19c;
+  background: #fff8eb;
+  border-radius: 10px;
+}
+
+.overview-attention-callout strong {
+  display: block;
+  color: #102a43;
+  font-size: 0.92rem;
+}
+
+.overview-attention-callout span {
+  color: #627d98;
+  font-size: 0.82rem;
+}
+
+.overview-finance-block .issue-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}

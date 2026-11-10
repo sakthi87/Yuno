@@ -1,0 +1,21 @@
+{
+  "name": "yugabyte-platform",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "seed": "npm run seed --prefix backend",
+    "api": "npm run start --prefix backend",
+    "ui": "npm run dev --prefix frontend",
+    "start": "node backend/src/index.js",
+    "dev": "npm run seed && concurrently \"npm run api\" \"npm run ui\"",
+    "dev:mac": "bash packaging/mac/start.sh",
+    "setup:mac": "bash packaging/mac/setup.sh",
+    "package:rhel": "bash packaging/rhel/build-package.sh",
+    "build": "npm run build --prefix frontend",
+    "demo:ingest": "node scripts/demo-ingest.mjs",
+    "test:wave12": "node scripts/test-wave12.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

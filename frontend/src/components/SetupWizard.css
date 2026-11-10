@@ -1,0 +1,83 @@
+.setup-wizard .setup-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.setup-step-pill {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: #d9e2ec;
+  color: #486581;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.setup-step-pill.active {
+  background: #1d4e89;
+  color: #fff;
+}
+
+.setup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334e68;
+}
+
+.setup-field input,
+.setup-field select {
+  border: 1px solid #bcccdc;
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-weight: 400;
+}
+
+.setup-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.btn-primary {
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  background: #1d4e89;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.setup-code-block {
+  margin-top: 0.85rem;
+  background: #102a43;
+  color: #d9e2ec;
+  border-radius: 8px;
+  padding: 0.85rem;
+  overflow-x: auto;
+  font-size: 0.78rem;
+}
+
+.setup-banner {
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.85rem;
+}
+
+.setup-banner.ok {
+  background: #e3f9e5;
+  color: #014d40;
+}
+
+.setup-banner.bad {
+  background: #fce8e6;
+  color: #9b1c1c;
+}

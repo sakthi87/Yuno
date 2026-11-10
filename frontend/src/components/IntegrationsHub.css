@@ -1,0 +1,31 @@
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.integration-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.integration-card-head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.integration-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.integration-meta {
+  margin-top: 0.65rem;
+  font-size: 0.75rem;
+  color: #627d98;
+}

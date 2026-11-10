@@ -1,0 +1,18 @@
+[Unit]
+Description=Yugabyte Platform API and UI
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+EnvironmentFile=@YUNO_CONFIG_PATH@
+EnvironmentFile=-/etc/yuno/secrets.env
+WorkingDirectory=@YUNO_INSTALL_ROOT@/api
+ExecStart=/usr/bin/node @YUNO_INSTALL_ROOT@/api/src/index.js
+Restart=always
+RestartSec=5
+StandardOutput=append:@YUNO_INSTALL_ROOT@/logs/yuno-api.log
+StandardError=append:@YUNO_INSTALL_ROOT@/logs/yuno-api.log
+
+[Install]
+WantedBy=multi-user.target

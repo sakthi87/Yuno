@@ -1,0 +1,32 @@
+# Prebuilt-image compose for Docker Hub / workplace (no npm, no compile).
+# Usage:
+#   export DOCKERHUB_USER=sakthipsgit
+#   export IMAGE_TAG=1.0.0
+#   ./scripts/start-prebuilt.sh
+#
+# Or:
+#   docker compose -f docker-compose.hub.yml pull
+#   docker compose -f docker-compose.hub.yml up -d
+#
+# UI + API: http://localhost:3001  (login admin / admin)
+
+name: yuno
+
+services:
+  yuno:
+    image: ${DOCKERHUB_USER:-sakthipsgit}/yuno-platform:${IMAGE_TAG:-1.0.0}
+    ports:
+      - "${YUNO_PORT:-3001}:3001"
+    environment:
+      AUTO_SEED: ${AUTO_SEED:-true}
+      DEMO_MODE: ${DEMO_MODE:-true}
+      YUNO_COMPANY_NAME: ${YUNO_COMPANY_NAME:-Yuno Platform}
+      AGENT_API_TOKEN: ${AGENT_API_TOKEN:-}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:-}
+      SESSION_SECRET: ${SESSION_SECRET:-yuno-demo-session}
+    volumes:
+      - yuno-data:/data
+    restart: unless-stopped
+
+volumes:
+  yuno-data:

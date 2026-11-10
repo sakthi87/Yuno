@@ -1,0 +1,9 @@
+[Unit]
+Description=Yugabyte Platform (API + UI + PostgreSQL stack)
+Documentation=file:///opt/yuno/docs/INSTALLATION_AND_SETUP.md
+Wants=postgresql.service nginx.service yuno-api.service
+After=network-online.target postgresql.service
+After=yuno-api.service nginx.service
+
+[Install]
+WantedBy=multi-user.target

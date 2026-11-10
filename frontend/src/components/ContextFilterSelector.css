@@ -1,0 +1,111 @@
+/* ODP360 DeploymentContextSelector-style grouped filters */
+.context-filter-selector {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border-bottom: 1px solid #dfe4ea;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin: -1.25rem -1.5rem 1rem;
+  scrollbar-width: thin;
+}
+
+.context-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.context-filter-row + .context-filter-row {
+  border-left: 1px solid #cbd5df;
+  padding-left: 10px;
+}
+
+.context-filter-row.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.context-filter-label {
+  color: #2f5f82;
+  background: #e8f2f9;
+  border: 1px solid #c7dfef;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 76px;
+  padding: 5px 6px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.context-filter-options {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: #eef2f6;
+  border-radius: 6px;
+  flex-wrap: nowrap;
+}
+
+.context-filter-option {
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #4d5b6a;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 6px 8px;
+  transition: background-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.context-filter-option:hover:not(:disabled) {
+  background: #dce6ef;
+  color: #243447;
+}
+
+.context-filter-option.active {
+  background: #3498db;
+  color: #ffffff;
+}
+
+.context-filter-option:focus-visible {
+  outline: 2px solid #216fa3;
+  outline-offset: 2px;
+}
+
+.context-filter-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.context-filter-summary {
+  margin-left: auto;
+  padding-left: 10px;
+  color: #6c7a89;
+  font-size: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .context-filter-selector {
+    gap: 10px;
+    padding: 7px 12px;
+  }
+
+  .context-filter-row + .context-filter-row {
+    padding-left: 10px;
+  }
+}
