@@ -4,12 +4,12 @@ Customer-space ops console for YugabyteDB estates: inventory, intelligent health
 
 ## Workplace run (no npm, no Docker) — ODP360 pattern
 
-Prebuilt files live in **`offline/`** and on the [v1.2.0 GitHub Release](https://github.com/sakthi87/Yuno/releases/tag/v1.2.0).  
-If the other environment has **no internet**, copy the repo **with `offline/`** (or use `./scripts/build-offline-bundle.sh`) — do not rely on `curl` there.
+Prebuilt files ship in **`offline/`** (tag [v1.3.0](https://github.com/sakthi87/Yuno/releases/tag/v1.3.0)).  
+`download-prebuilt.sh` unpacks them locally — no network, no GitHub curl.
 
 ```bash
 chmod +x scripts/*.sh
-YUNO_OFFLINE_ONLY=1 ./scripts/download-prebuilt.sh   # extracts from offline/ — no network
+./scripts/download-prebuilt.sh   # extracts from offline/
 ./scripts/start-prebuilt.sh
 ```
 
@@ -20,20 +20,20 @@ Details: [RUN_WITHOUT_DOCKER.md](./RUN_WITHOUT_DOCKER.md) · [offline/README.md]
 
 | Script | Role |
 |--------|------|
-| `scripts/download-prebuilt.sh` | Fetch portable Node + `node_modules` from GitHub Release |
+| `scripts/download-prebuilt.sh` | Extract portable Node + `node_modules` + UI from `offline/` |
 | `scripts/start-prebuilt.sh` | Start API+UI in background (`logs/*.pid`) |
 | `scripts/stop-prebuilt.sh` | Stop those processes |
 
 ## Build machine only (optional)
 
-Publish release artifacts (not needed at workplace):
+Refresh `offline/` artifacts (not needed at workplace):
 
 ```bash
 ./scripts/package-prebuilt.sh
-gh release upload v1.2.0 dist-prebuilt/yuno-runtime-*.tar.gz dist-prebuilt/frontend-dist.zip --clobber
+mkdir -p offline
+cp dist-prebuilt/yuno-runtime-*.tar.gz dist-prebuilt/frontend-dist.zip offline/
+gh release upload v1.3.0 dist-prebuilt/yuno-runtime-*.tar.gz dist-prebuilt/frontend-dist.zip --clobber
 ```
-
-Docker image packaging remains optional under [DOCKER_HUB.md](./DOCKER_HUB.md).
 
 ## Layout
 

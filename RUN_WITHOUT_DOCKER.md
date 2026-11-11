@@ -1,26 +1,23 @@
 # Run Yuno without Docker (ODP360-style)
 
-**No npm. No Docker. No compile.**  
-Uses prebuilt Node runtime + `backend/node_modules` + built UI.
+**No npm. No Docker. No compile. No GitHub download at runtime.**  
+Uses packages already in `offline/` → extracts into `runtime/`, `backend/node_modules/`, `frontend/dist/`.
 
-Release: https://github.com/sakthi87/Yuno/releases/tag/v1.2.0
+Release / tag: https://github.com/sakthi87/Yuno/releases/tag/v1.3.0
 
 ---
 
-## Quick start (recommended)
-
-### Option A — Air-gapped / no internet
-
-Copy the whole repo (must include `offline/`) via USB or internal share, **or** clone tag `v1.2.0` on a machine that already has the files, then take that folder offline.
+## Quick start
 
 ```bash
+git clone --branch v1.3.0 --depth 1 https://github.com/sakthi87/Yuno.git
 cd Yuno
 chmod +x scripts/*.sh
 
-# 1) Install prebuilt runtime from offline/ (no network)
-YUNO_OFFLINE_ONLY=1 ./scripts/download-prebuilt.sh
+# Extract from offline/ (local only — never hits the network)
+./scripts/download-prebuilt.sh
 
-# 2) Start
+# Start
 ./scripts/start-prebuilt.sh
 ```
 
@@ -33,73 +30,24 @@ Stop:
 ./scripts/stop-prebuilt.sh
 ```
 
-### Option B — Machine with internet
-
-```bash
-git clone --branch v1.2.0 --depth 1 https://github.com/sakthi87/Yuno.git
-cd Yuno
-chmod +x scripts/*.sh
-
-# Uses offline/ if present; otherwise downloads from the v1.2.0 release
-./scripts/download-prebuilt.sh
-
-./scripts/start-prebuilt.sh
-```
-
-Open **http://localhost:3001** — login **admin** / **admin**
-
-```bash
-./scripts/stop-prebuilt.sh
-```
+Air-gap: copy the whole repo folder (must include `offline/`) via USB or share, then run the same two scripts.
 
 ---
 
-## Step-by-step detail
+## What `download-prebuilt.sh` does
 
-### 1. Get the code
+| File in `offline/` | Extracted to |
+|--------------------|--------------|
+| `yuno-runtime-darwin-arm64.tar.gz` or `yuno-runtime-linux-x64.tar.gz` | `runtime/bin/node` + `backend/node_modules/` |
+| `frontend-dist.zip` | `frontend/dist/` |
 
-```bash
-git clone --branch v1.2.0 --depth 1 https://github.com/sakthi87/Yuno.git
-cd Yuno
-chmod +x scripts/*.sh
-```
+Your machine picks the matching runtime by OS/arch. No curl, no Release download.
 
-Or download the source ZIP from GitHub and unzip.
+If a file is missing under `offline/`, the script exits with an error — fix the clone/copy, don’t expect a network fallback.
 
-### 2. Install the prebuilt runtime
+---
 
-`./scripts/download-prebuilt.sh` extracts:
-
-| Input | Result |
-|-------|--------|
-| `yuno-runtime-<os-arch>.tar.gz` | `runtime/bin/node` + `backend/node_modules/` |
-| `frontend-dist.zip` (if needed) | `frontend/dist/` |
-
-**Where the packages live**
-
-| Location | Path |
-|----------|------|
-| In the git tag / clone | `offline/yuno-runtime-*.tar.gz`, `offline/frontend-dist.zip` |
-| GitHub Release downloads | https://github.com/sakthi87/Yuno/releases/tag/v1.2.0 |
-
-Examples:
-
-- macOS Apple Silicon: `yuno-runtime-darwin-arm64.tar.gz`
-- Linux x86_64: `yuno-runtime-linux-x64.tar.gz`
-
-**Air-gap (force local files only):**
-
-```bash
-YUNO_OFFLINE_ONLY=1 ./scripts/download-prebuilt.sh
-```
-
-If that fails, place the matching `.tar.gz` into `offline/` first (from the Release page or another copy of the repo).
-
-### 3. Start
-
-```bash
-./scripts/start-prebuilt.sh
-```
+## Ports & logs
 
 | What | Value |
 |------|--------|
@@ -107,12 +55,6 @@ If that fails, place the matching `.tar.gz` into `offline/` first (from the Rele
 | Login | `admin` / `admin` |
 | Health | http://localhost:3001/api/v1/health |
 | Logs | `logs/yuno-api.log` |
-
-### 4. Stop
-
-```bash
-./scripts/stop-prebuilt.sh
-```
 
 ---
 
@@ -137,15 +79,14 @@ cd yuno-offline-<platform>
 
 ---
 
-## Build machine only (publish new artifacts)
+## Build machine only (refresh `offline/` artifacts)
 
 Not needed at workplace:
 
 ```bash
 ./scripts/package-prebuilt.sh
-./scripts/package-prebuilt.sh --platform=linux-x64 --docker   # optional
+./scripts/package-prebuilt.sh --platform=linux-x64 --docker   # optional cross-pack
 
 mkdir -p offline
 cp dist-prebuilt/yuno-runtime-*.tar.gz dist-prebuilt/frontend-dist.zip offline/
-gh release upload v1.2.0 dist-prebuilt/*.tar.gz dist-prebuilt/frontend-dist.zip --clobber
 ```
